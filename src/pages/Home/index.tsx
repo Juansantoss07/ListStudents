@@ -1,12 +1,22 @@
 import { useState, useEffect} from 'react'
-import {Card} from '../../components/Card'
+import {Card, CardProps} from '../../components/Card'
 
 import './style.css'
 
+type ProfileResponse = {
+  name:string;
+  avatar_url:string;
+}
+
+type User = {
+  name:string;
+  avatar:string;
+}
+
 export function Home() {
-  const [studentName, setStudentName] = useState();
-  const [students, setEstudends] = useState([]);
-  const [user, setUser] = useState({name: '', avatar: ''});
+  const [studentName, setStudentName] = useState('');
+  const [students, setEstudends] = useState<CardProps[]>([]);
+  const [user, setUser] = useState<User>({} as User);
 
   async function handleAddStudent(){
     const newStudent = {
@@ -24,7 +34,7 @@ export function Home() {
   useEffect(() => {
    async function fecthData(){
     const response = await fetch('https://api.github.com/users/Juansantoss07')
-    const data = await  response.json()
+    const data = await  response.json() as ProfileResponse
       setUser({
         name: data.name,
         avatar: data.avatar_url
